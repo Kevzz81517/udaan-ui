@@ -90,7 +90,7 @@ const Analysis = () => {
           <IntroduceRow loading={loading} visitData={data?.visitData || []} />
         </Suspense>
 
-        <Suspense fallback={null}>
+        {/* <Suspense fallback={null}>
           <SalesCard
             rangePickerValue={rangePickerValue}
             salesData={data?.salesData || []}
@@ -128,9 +128,9 @@ const Analysis = () => {
               />
             </Suspense>
           </Col>
-        </Row>
+        </Row> */}
 
-        <Suspense fallback={null}>
+        {/* <Suspense fallback={null}>
           <OfflineData
             activeKey={activeKey}
             loading={loading}
@@ -138,7 +138,7 @@ const Analysis = () => {
             offlineChartData={data?.offlineChartData || []}
             handleTabChange={handleTabChange}
           />
-        </Suspense>
+        </Suspense> */}
       </>
     </GridContent>
   );
