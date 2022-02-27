@@ -29,15 +29,7 @@ export async function createUsersWithListInput(body, options) {
     ...(options || {}),
   });
 }
-/** Logs user into the system GET /user/login */
 
-export async function loginUser(params, options) {
-  return request('/user/login', {
-    method: 'GET',
-    params: { ...params },
-    ...(options || {}),
-  });
-}
 /** Logs out current logged in user session GET /user/logout */
 
 export async function logoutUser() {

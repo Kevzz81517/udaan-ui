@@ -6,6 +6,7 @@ import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
+const signupPath = '/user/shg/register'
 /** 获取用户信息比较慢的时候会展示一个 loading */
 
 export const initialStateConfig = {
@@ -27,7 +28,8 @@ export async function getInitialState() {
     return undefined;
   }; // 如果是登录页面，不执行
 
-  if (history.location.pathname !== loginPath) {
+
+  if (((history.location.pathname !== loginPath) && (history.location.pathname !== signupPath))) {
     const currentUser = await fetchUserInfo();
     return {
       fetchUserInfo,
@@ -52,8 +54,7 @@ export const layout = ({ initialState }) => {
     footerRender: () => <Footer />,
     onPageChange: () => {
       const { location } = history; // 如果没有登录，重定向到 login
-
-      if (!initialState?.currentUser && location.pathname !== loginPath) {
+      if (!initialState?.currentUser && ((location.pathname !== loginPath) && (location.pathname !== signupPath))) {
         history.push(loginPath);
       }
     },

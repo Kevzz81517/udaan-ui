@@ -1,6 +1,13 @@
 import { request } from 'umi';
-export async function queryCurrent() {
-  return request('/api/accountSettingCurrentUser');
+export async function getSHGProfileDetails() {
+  return request(
+    '/api/users/shg/details',{
+      method: 'GET',
+      headers: {
+        'Authorization': localStorage.getItem('Authorization')
+      }
+  }
+  );
 }
 export async function queryProvince() {
   return request('/api/geographic/province');

@@ -42,8 +42,10 @@ export default defineConfig({
           component: './user/Login',
         },
         {
-          path: '/user',
-          redirect: '/user/login',
+          path: '/user/shg/register',
+          layout: false,
+          name: 'register-shg',
+          component: './user/shg/register',
         },
         {
           name: 'register-result',

@@ -6,15 +6,17 @@ import {
   TaobaoCircleOutlined,
   WeiboCircleOutlined,
 } from '@ant-design/icons';
-import { Alert, message, Tabs, Form } from 'antd';
+import { Alert, message, Tabs, Form, Input, Row, Col, Button } from 'antd';
 import React, { useState } from 'react';
 import { ProFormCaptcha, ProFormText, LoginForm, ProFormSelect } from '@ant-design/pro-form';
-import { useIntl, history, FormattedMessage, SelectLang, useModel } from 'umi';
+import { useIntl, history, FormattedMessage, SelectLang, useModel, Link } from 'umi';
 import Footer from '@/components/Footer';
 import { getOtp, login } from '@/services/ant-design-pro/login';
 import styles from './index.less';
+import { useRequest } from 'ahooks';
+import { verifyAndSignup, getOtpForSignup } from './service';
 
-const LoginMessage = ({ content }) => (
+const RegisterMessage = ({ content }) => (
   <Alert
     style={{
       marginBottom: 24,
@@ -25,8 +27,7 @@ const LoginMessage = ({ content }) => (
   />
 );
 
-
-const Login = () => {
+const Register = () => {
   const [type, setType] = useState('PHONE');
   const [userLoginState, setUserLoginState] = useState({});
   const { initialState, setInitialState } = useModel('@@initialState');
@@ -51,13 +52,10 @@ const Login = () => {
   const handleSubmit = async (values) => {
     try {
       // 登录
-      const msg = await login({ ...values });
+      const msg = await verifyAndSignup({PHONE: values.captcha});
       if (msg.response.ok) {
         localStorage.setItem('Authorization', msg.response.headers.get('Authorization'));
-        const defaultLoginSuccessMessage = intl.formatMessage({
-          id: 'pages.login.success',
-          defaultMessage: 'Login Successful!',
-        });
+        const defaultLoginSuccessMessage = 'Registered Successfully!';
         message.success(defaultLoginSuccessMessage);
         await fetchUserInfo();
 
@@ -71,13 +69,25 @@ const Login = () => {
 
       setUserLoginState(msg);
     } catch (error) {
-      const defaultLoginFailureMessage = intl.formatMessage({
-        id: 'pages.login.failure',
-        defaultMessage: '登录失败，请重试！',
-      });
+      const defaultLoginFailureMessage = 'Registration failed, please try again!';
       message.error(defaultLoginFailureMessage);
     }
   };
+
+  const { loading: submitting, run: register } = useRequest(verifyAndSignup, {
+    manual: true,
+    onSuccess: (data, params) => {
+      if (data.status === 'ok') {
+        message.success('Registration successful!');
+        history.push({
+          pathname: '/user/register-result',
+          state: {
+            account: params.email,
+          },
+        });
+      }
+    },
+  });
 
   return (
     <div className={styles.container}>
@@ -85,12 +95,12 @@ const Login = () => {
         {SelectLang && <SelectLang />}
       </div>
       <div className={styles.content}>
-        <LoginForm
+        <Row  justify='center'>
+        <Form
+  
+          style={{ flexDirection: 'column',  alignContent: 'center', alignItems: 'center', justifyContent: 'center'}}
           onValuesChange={(values) => {
-            const {loginType} = values;
-            if(loginType && loginType !== type) {
-              setType(loginType);
-            }
+            
           }}
           logo={<img alt="logo" src="/logo.svg" />}
           title="Udaan"
@@ -108,32 +118,26 @@ const Login = () => {
           <Tabs activeKey={''}>
             <Tabs.TabPane
               key=""
-              tab={intl.formatMessage({
-                id: 'pages.login.phoneLogin.tab',
-                defaultMessage: 'Mobile phone number login',
-              })}
+              tab='Register'
             />
           </Tabs>
 
-          {status === 'error' && <LoginMessage content="Verification code error" />}
+          {status === 'error' && <RegisterMessage content="Verification code error" />}
           {(
             <>
-              <ProFormSelect
-                name='loginType'
-                placeholder={'Login Type'}
-                initialValue={'PHONE'}
-                options={[
-                  {
-                    value: "PHONE",
-                    label: "Phone Number",
-                  },
-                  {
-                    value: "EMAIL",
-                    label: "E-Mail",
-                  }
-                ]}
-              >
-              </ProFormSelect>
+              <ProFormText  
+                    fieldProps={{
+                      size: 'large',
+                    }}
+                    name="shgName"
+                    placeholder='SHG Name'
+                    rules={[
+                      {
+                        required: true,
+                        message: `Please enter SHG Name!`,
+                      },
+                    ]}
+                  />
               {
                 type == 'PHONE' ? (
                   <ProFormText  
@@ -151,28 +155,6 @@ const Login = () => {
                       {
                         pattern:  /^\d{10}$/,
                         message: `Malformed phone number!`,
-                      },
-                    ]}
-                  />
-                ) : (null)
-              }
-              {
-                type == 'EMAIL' ? (
-                  <ProFormText  
-                    fieldProps={{
-                      size: 'large',
-                      prefix: <MessageOutlined className={styles.prefixIcon} />,
-                    }}
-                    name="contactId"
-                    placeholder='E-Mail'
-                    rules={[
-                      {
-                        required: true,
-                        message: `Please enter email!`,
-                      },
-                      {
-                        pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                        message: `Malformed e-mail!`,
                       },
                     ]}
                   />
@@ -211,12 +193,13 @@ const Login = () => {
                   },
                 ]}
                 onGetCaptcha={async (contactId) => {
-                  const checkValidId = await getOtp({
-                    contactId, loginType: type
+                  debugger;
+                  const checkValidId = await getOtpForSignup({
+                    phone: contactId, name: loginForm.getFieldsValue('shgName')?.shgName 
                   });
 
                   if (checkValidId?.response && checkValidId?.response.ok) {
-
+                    debugger;
                     const token = checkValidId.response.headers.get('Authorization')
                     localStorage.setItem('Authorization', token)
                     message.success('Verification code sent successfully');
@@ -230,11 +213,27 @@ const Login = () => {
               />
             </>
           )}
-        </LoginForm>
+          <Form.Item>
+          <Button
+            size="large"
+            loading={submitting}
+            className={styles.submit}
+            type="primary"
+            htmlType="submit"
+          >
+            <span>Register</span>
+          </Button>
+          <Link className={styles.login} to="/user/login">
+            <span>Log in with an existing account</span>
+          </Link>
+        </Form.Item>
+        </Form>
+        </Row>
       </div>
       <Footer />
     </div>
   );
-};
+}
 
-export default Login;
+
+export default Register;
