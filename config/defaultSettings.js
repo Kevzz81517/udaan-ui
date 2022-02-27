@@ -9,7 +9,7 @@ const Settings = {
   colorWeak: false,
   title: 'Udaan',
   pwa: false,
-  logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+  logo: 'https://i.stack.imgur.com/4fm7J.png',
   iconfontUrl: '',
 };
 export default Settings;
