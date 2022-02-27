@@ -178,7 +178,6 @@ const TableList = () => {
   return (
     <PageContainer>
       <ProTable
-        headerTitle="查询表格"
         actionRef={actionRef}
         rowKey="key"
         search={{
@@ -235,7 +234,7 @@ const TableList = () => {
         </FooterToolbar>
       )}
       <ModalForm
-        title="新建规则"
+        title="Add New Client"
         width="400px"
         visible={createModalVisible}
         onVisibleChange={handleModalVisible}

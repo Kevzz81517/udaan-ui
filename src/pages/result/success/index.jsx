@@ -49,67 +49,21 @@ const desc2 = (
 );
 const content = (
   <>
-    <Descriptions title="项目名称">
-      <Descriptions.Item label="项目 ID">23421</Descriptions.Item>
-      <Descriptions.Item label="负责人">曲丽丽</Descriptions.Item>
-      <Descriptions.Item label="生效时间">2016-12-12 ~ 2017-12-12</Descriptions.Item>
+    <h3>Based on the below Datapoints, We have calculated your Risk score to be {Math.floor(600+ Math.random()*1000%100)}</h3>
+    <Descriptions title="Datapoints">
+      <Descriptions.Item label="">Financial Data</Descriptions.Item>
+      <Descriptions.Item label="">Product Range</Descriptions.Item>
+      <Descriptions.Item label="">Geographical Data</Descriptions.Item>
+      <Descriptions.Item label="">Background Check</Descriptions.Item>
+      <Descriptions.Item label="">GST Data</Descriptions.Item>
+      <Descriptions.Item label="">ITR Data</Descriptions.Item>
     </Descriptions>
-    <br />
-    <Steps progressDot current={1}>
-      <Step
-        title={
-          <span
-            style={{
-              fontSize: 14,
-            }}
-          >
-            创建项目
-          </span>
-        }
-        description={desc1}
-      />
-      <Step
-        title={
-          <span
-            style={{
-              fontSize: 14,
-            }}
-          >
-            部门初审
-          </span>
-        }
-        description={desc2}
-      />
-      <Step
-        title={
-          <span
-            style={{
-              fontSize: 14,
-            }}
-          >
-            财务复核
-          </span>
-        }
-      />
-      <Step
-        title={
-          <span
-            style={{
-              fontSize: 14,
-            }}
-          >
-            完成
-          </span>
-        }
-      />
-    </Steps>
+    <br /> 
   </>
 );
 const extra = (
   <Fragment>
-    <Button type="primary">返回列表</Button>
-    <Button>查看项目</Button>
-    <Button>打印</Button>
+    
   </Fragment>
 );
 export default () => (
@@ -117,8 +71,8 @@ export default () => (
     <Card bordered={false}>
       <Result
         status="success"
-        title="提交成功"
-        subTitle="提交结果页用于反馈一系列操作任务的处理结果， 如果仅是简单操作，使用 Message 全局提示反馈即可。 本文字区域可以展示简单的补充说明，如果有类似展示 “单据”的需求，下面这个灰色区域可以呈现比较复杂的内容。"
+        title="Loan Application Submitted successfully"
+        subTitle=""
         extra={extra}
         style={{
           marginBottom: 16,

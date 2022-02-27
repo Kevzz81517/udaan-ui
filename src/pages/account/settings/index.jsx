@@ -11,8 +11,7 @@ const { Item } = Menu;
 const Settings = () => {
   const menuMap = {
     base: 'Basic Profile',
-    security: 'Clients, Products & Invoices',
-    binding: 'jlk',
+    binding: 'Clients, Products & Invoices',
     notification: 'New news notification',
   };
   const [initConfig, setInitConfig] = useState({

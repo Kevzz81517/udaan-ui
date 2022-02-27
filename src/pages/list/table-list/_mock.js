@@ -16,8 +16,8 @@ const genList = (current, pageSize) => {
         'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png',
       ][i % 2],
       name: `TradeCode ${index}`,
-      owner: '曲丽丽',
-      desc: '这是一段描述',
+      owner: 'Qi Li Li',
+      desc: 'This is a description',
       callNo: Math.floor(Math.random() * 1000),
       status: (Math.floor(Math.random() * 10) % 4).toString(),
       updatedAt: new Date(),
@@ -30,7 +30,7 @@ const genList = (current, pageSize) => {
   return tableListDataSource;
 };
 
-let tableListDataSource = genList(1, 100);
+let tableListDataSource = genList(0,0);
 
 function getRule(req, res, u) {
   let realUrl = u;

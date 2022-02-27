@@ -43,10 +43,12 @@ const AvatarView = ({ avatar }) => (
   </>
 );
 
-const BaseView = () => {
+const BaseView = (props) => {
 
   const [profileData, setProfileData] = useState();
   const [loading, setLoading] = useState(true);
+
+  const {location} = props;
 
   const userProfileData = async () => {
     setProfileData(await getSHGProfileDetails());
@@ -77,6 +79,7 @@ const BaseView = () => {
   const handleFinish = async (values) => {
     console.log(values)
     message.success('Profile updated successfully');
+    history.push('/dashboard/analysis')
   };
 
   return (
@@ -196,6 +199,18 @@ const BaseView = () => {
                 width="md"
                 name="pincode"
                 label="Pincode"
+              />
+
+              <ProFormText
+                width="md"
+                name="gstNo"
+                label="GST Number"
+              />
+
+              <ProFormText
+                width="md"
+                name="panNo"
+                label="Pan No"
               />
             </ProForm>
           </div>

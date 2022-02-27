@@ -34,16 +34,16 @@ const handleAdd = async (fields) => {
  */
 
 const handleUpdate = async (fields, currentRow) => {
-  const hide = message.loading('正在配置');
+  const hide = message.loading('Be configured');
 
   try {
     await updateRule({ ...currentRow, ...fields });
     hide();
-    message.success('配置成功');
+    message.success('Configure success');
     return true;
   } catch (error) {
     hide();
-    message.error('配置失败请重试！');
+    message.error('If you fail, please try again!');
     return false;
   }
 };
@@ -85,9 +85,8 @@ const BindingView = () =>  {
 
   const columns = [
     {
-      title: '规则名称',
+      title: 'Product',
       dataIndex: 'name',
-      tip: '规则名称是唯一的 key',
       render: (dom, entity) => {
         return (
           <a
@@ -102,83 +101,15 @@ const BindingView = () =>  {
       },
     },
     {
-      title: '描述',
+      title: 'Drescription',
       dataIndex: 'desc',
       valueType: 'textarea',
-    },
-    {
-      title: '服务调用次数',
-      dataIndex: 'callNo',
-      sorter: true,
-      hideInForm: true,
-      renderText: (val) => `${val}万`,
-    },
-    {
-      title: '状态',
-      dataIndex: 'status',
-      hideInForm: true,
-      valueEnum: {
-        0: {
-          text: '关闭',
-          status: 'Default',
-        },
-        1: {
-          text: '运行中',
-          status: 'Processing',
-        },
-        2: {
-          text: '已上线',
-          status: 'Success',
-        },
-        3: {
-          text: '异常',
-          status: 'Error',
-        },
-      },
-    },
-    {
-      title: '上次调度时间',
-      sorter: true,
-      dataIndex: 'updatedAt',
-      valueType: 'dateTime',
-      renderFormItem: (item, { defaultRender, ...rest }, form) => {
-        const status = form.getFieldValue('status');
-
-        if (`${status}` === '0') {
-          return false;
-        }
-
-        if (`${status}` === '3') {
-          return <Input {...rest} placeholder="请输入异常原因！" />;
-        }
-
-        return defaultRender(item);
-      },
-    },
-    {
-      title: '操作',
-      dataIndex: 'option',
-      valueType: 'option',
-      render: (_, record) => [
-        <a
-          key="config"
-          onClick={() => {
-            handleUpdateModalVisible(true);
-            setCurrentRow(record);
-          }}
-        >
-          配置
-        </a>,
-        <a key="subscribeAlert" href="https://procomponents.ant.design/">
-          订阅警报
-        </a>,
-      ],
     },
   ];
   return (
     <PageContainer>
       <ProTable
-        headerTitle="查询表格"
+        headerTitle="Query form"
         actionRef={actionRef}
         rowKey="key"
         search={{
@@ -192,7 +123,7 @@ const BindingView = () =>  {
               handleModalVisible(true);
             }}
           >
-            <PlusOutlined /> 新建
+            <PlusOutlined /> Add
           </Button>,
         ]}
         request={rule}
@@ -235,7 +166,7 @@ const BindingView = () =>  {
         </FooterToolbar>
       )}
       <ModalForm
-        title="新建规则"
+        title="Add New Client"
         width="400px"
         visible={createModalVisible}
         onVisibleChange={handleModalVisible}

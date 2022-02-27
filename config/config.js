@@ -65,6 +65,12 @@ export default defineConfig({
       ],
     },
     {
+      name: 'success',
+      layout: false,
+      path: '/result/success',
+      component: './result/success',
+    },
+    {
       path: '/dashboard',
       name: 'dashboard',
       icon: 'dashboard',
@@ -86,16 +92,6 @@ export default defineConfig({
       icon: 'user',
       path: '/account',
       routes: [
-        {
-          path: '/account',
-          redirect: '/account/center',
-        },
-        {
-          name: 'center',
-          icon: 'smile',
-          path: '/account/center',
-          component: './account/center',
-        },
         {
           name: 'settings',
           icon: 'smile',

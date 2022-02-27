@@ -30,7 +30,7 @@ const genList = (current, pageSize) => {
   return tableListDataSource;
 };
 
-let tableListDataSource = genList(1, 100);
+let tableListDataSource = genList(1, 2);
 
 function getRule(req, res, u) {
   let realUrl = u;

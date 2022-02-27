@@ -212,7 +212,7 @@
       },
       "post": {
         "tags": ["rule"],
-        "description": "新建规则",
+        "description": "Add Clients",
         "operationId": "addRule",
         "responses": {
           "200": {
